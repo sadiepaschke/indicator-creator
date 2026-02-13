@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/Logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Indicator Library & Builder | Anthralytic</title>
+
+    <meta name="description" content="Searchable database of validated indicators by sector with AI-powered custom indicator generation and SMART criteria checking." />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Indicator Library & Builder" />
+    <meta property="og:description" content="Find and build validated indicators for your M&E framework." />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      }
+    </script>
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-color: #fdfaf0;
+      }
+      html.dark, html.dark body {
+        background-color: #000000 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

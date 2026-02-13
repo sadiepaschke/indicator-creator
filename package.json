@@ -1,0 +1,26 @@
+{
+  "name": "indicator-library",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5174",
+    "build": "vite build",
+    "lint": "tsc",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "mammoth": "^1.11.0",
+    "pdfjs-dist": "^5.4.624",
+    "react": "^19.1.1-beta-94bfa93433-20240722",
+    "react-dom": "^19.1.1-beta-94bfa93433-20240722"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.3",
+    "vite": "^7.1.7"
+  }
+}
