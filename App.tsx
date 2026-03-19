@@ -176,11 +176,9 @@ const App: React.FC = () => {
                 <h2 className="text-2xl font-bold">
                   {tocData.projectName || 'Indicator Matrix'}
                 </h2>
-                {tocData.sector && (
-                  <p className="text-sm text-gray-500 mt-1">
-                    Sector: {tocData.sector}
-                  </p>
-                )}
+                <p className="text-sm text-amber-600 dark:text-amber-400 mt-1 font-medium">
+                  Coming soon!
+                </p>
               </div>
 
               {/* Main content grid */}
@@ -236,7 +234,7 @@ const App: React.FC = () => {
         {/* Footer */}
         <footer className="border-t border-gray-200 dark:border-gray-800 py-6 mt-12">
           <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500 dark:text-gray-400">
-            <p>A free tool for M&E professionals</p>
+            <p>A free tool for nonprofits</p>
             <p className="mt-1">&copy; 2025 Anthralytic</p>
           </div>
         </footer>
