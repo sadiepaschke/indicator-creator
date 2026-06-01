@@ -1,0 +1,63 @@
+name: Dependency security PR checks
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-bugfix-pr-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dependency-security:
+    name: Dependency security audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect package manager
+        id: package-manager
+        shell: bash
+        run: |
+          if [ ! -f package.json ]; then
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "manager=none" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "present=true" >> "$GITHUB_OUTPUT"
+          package_manager="$(node -e "const p=require('./package.json'); console.log((p.packageManager || '').split('@')[0])")"
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ] || [ "$package_manager" = "npm" ] || [ -z "$package_manager" ]; then
+            echo "manager=npm" >> "$GITHUB_OUTPUT"
+          else
+            echo "manager=$package_manager" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Node.js
+        if: steps.package-manager.outputs.manager == 'npm'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install npm dependencies
+        if: steps.package-manager.outputs.manager == 'npm'
+        shell: bash
+        run: |
+          if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+            npm ci --ignore-scripts
+          else
+            npm install --ignore-scripts --no-audit --no-fund
+          fi
+
+      - name: Run high-severity audit
+        if: steps.package-manager.outputs.manager == 'npm'
+        continue-on-error: true
+        run: npm audit --audit-level=high
+
+      - name: Skip unsupported package manager
+        if: steps.package-manager.outputs.present == 'true' && steps.package-manager.outputs.manager != 'npm'
+        run: echo "Skipping audit for ${{ steps.package-manager.outputs.manager }} project; Dependabot will still monitor supported dependency files."
